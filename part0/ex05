@@ -1,0 +1,18 @@
+title Fullstack Open ex0.5
+
+Browser->Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa
+Server->Browser: 200 OK - spa.html
+Browser->Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.css
+Server->Browser: 200 OK - main.css
+Browser->Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa.js
+Server->Browser: 200 OK - spa.js
+note over Browser:
+Browser starts executing spa.js and
+sends an AJAX request for data.json
+end note
+Browser->Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/data.json
+Server->Browser: 200 OK - data.json
+note over Browser:
+Browser rerenders notes
+end note
+
