@@ -19,27 +19,18 @@ function App() {
 
   const personsNames = persons.map((person) => person.name);
   const shownPersons = search
-    ? persons.filter((person) => person.name.toLowerCase().includes(search))
+    ? persons.filter((person) =>
+        person.name.toLowerCase().includes(search.toLowerCase())
+      )
     : persons;
 
   const setStateOnChange = (setState) => (e) => {
     setState(e.target.value);
   };
 
-  const handleNameChange = (e) => {
-    const newName = e.target.value;
-    setName(newName);
-  };
-
-  const handleNumberChange = (e) => {
-    const newNumber = e.target.value;
-    setNumber(newNumber);
-  };
-
-  const handleSearchChange = (e) => {
-    const newSearch = e.target.value;
-    setSearch(newSearch);
-  };
+  const handleNameChange = setStateOnChange(setName);
+  const handleNumberChange = setStateOnChange(setNumber);
+  const handleSearchChange = setStateOnChange(setSearch);
 
   const handleSubmit = (e) => {
     e.preventDefault();
