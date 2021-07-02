@@ -6,8 +6,6 @@ import Notification from "./components/Notification";
 import PersonForm from "./components/PersonForm";
 import personService from "./services/persons";
 
-import axios from "axios";
-
 function App() {
   const [persons, setPersons] = useState([]);
   const [name, setName] = useState("");
@@ -16,15 +14,17 @@ function App() {
   const [notification, setNotification] = useState(null);
 
   useEffect(() => {
-    axios.get("/api/persons").then((response) => {
-      setPersons(response.data);
-    });
+    personService.findAll().then((persons) => setPersons(persons));
   }, []);
 
   const personsNames = persons.map((person) => person.name);
   const shownPersons = search
     ? persons.filter((person) => person.name.toLowerCase().includes(search))
     : persons;
+
+  const setStateOnChange = (setState) => (e) => {
+    setState(e.target.value);
+  };
 
   const handleNameChange = (e) => {
     const newName = e.target.value;
