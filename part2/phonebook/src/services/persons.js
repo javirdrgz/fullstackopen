@@ -2,6 +2,10 @@ import axios from "axios";
 
 const baseUrl = "/api/persons";
 
+const findAll = () => {
+  return axios.get(baseUrl).then((response) => response.data);
+};
+
 const create = (person) => {
   return axios.post(baseUrl, person).then((response) => response.data);
 };
@@ -16,4 +20,4 @@ const update = (id, person) => {
     .then((response) => response.data);
 };
 
-export default { create, deletePerson, update };
+export default { create, deletePerson, update, findAll };
