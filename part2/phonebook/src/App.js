@@ -30,7 +30,7 @@ function App() {
 
   const setNotificationWithTimeout = (type, message) => {
     setNotification({ type, message });
-    setTimeout(() => setNotification({}), 5000);
+    setTimeout(() => setNotification({}), 8000);
   };
 
   const handleNameChange = setStateOnChange(setName);
@@ -68,8 +68,7 @@ function App() {
             );
           })
           .catch((error) => {
-            setNotificationWithTimeout("error", "Failed to update person");
-            setPersons(persons.filter((p) => p.id !== person.id));
+            setNotificationWithTimeout("error", error.response.data.error);
           });
       }
       return;
@@ -83,8 +82,8 @@ function App() {
         setName("");
         setNumber("");
       })
-      .catch(() => {
-        setNotificationWithTimeout("error", "Failed to create person");
+      .catch((error) => {
+        setNotificationWithTimeout("error", error.response.data.error);
       });
   };
 
@@ -97,11 +96,8 @@ function App() {
           setNotificationWithTimeout("success", `Deleted ${person.name}!`);
           setPersons(persons.filter((person) => person.id !== id));
         })
-        .catch(() => {
-          setNotificationWithTimeout(
-            "error",
-            `Failed to delete ${person.name}!`
-          );
+        .catch((error) => {
+          setNotificationWithTimeout("error", error.response.data.error);
         });
     }
   };
