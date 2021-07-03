@@ -24,8 +24,13 @@ function App() {
       )
     : persons;
 
-  const setStateOnChange = (setState) => (e) => {
-    setState(e.target.value);
+  const setStateOnChange = (setState) => (event) => {
+    setState(event.target.value);
+  };
+
+  const setNotificationWithTimeout = (type, message) => {
+    setNotification({ type, message });
+    setTimeout(() => setNotification({}), 5000);
   };
 
   const handleNameChange = setStateOnChange(setName);
@@ -57,16 +62,13 @@ function App() {
             );
             setNumber("");
             setName("");
-            setNotification({
-              type: "success",
-              message: `Modified ${person.name}'s phone`,
-            });
+            setNotificationWithTimeout(
+              "success",
+              `Modified ${person.name}'s phone`
+            );
           })
-          .catch(() => {
-            setNotification({
-              type: "error",
-              message: `Failed to modify ${person.name}. Probably the person was already delted from server`,
-            });
+          .catch((error) => {
+            setNotificationWithTimeout("error", "Failed to update person");
             setPersons(persons.filter((p) => p.id !== person.id));
           });
       }
@@ -76,20 +78,14 @@ function App() {
     personService
       .create(newPerson)
       .then((newPerson) => {
-        setNotification({
-          type: "success",
-          message: `Added ${newPerson.name}`,
-        });
+        setNotificationWithTimeout("success", `Added ${newPerson.name}`);
         setPersons(persons.concat(newPerson));
         setName("");
         setNumber("");
       })
-      .catch(() =>
-        setNotification({
-          type: "error",
-          message: `Failed to create ${newPerson}`,
-        })
-      );
+      .catch(() => {
+        setNotificationWithTimeout("error", "Failed to create person");
+      });
   };
 
   const deletePerson = (id) => {
@@ -98,17 +94,14 @@ function App() {
       personService
         .deletePerson(id)
         .then(() => {
-          setNotification({
-            type: "success",
-            message: `Deleted ${person.name}!`,
-          });
+          setNotificationWithTimeout("success", `Deleted ${person.name}!`);
           setPersons(persons.filter((person) => person.id !== id));
         })
         .catch(() => {
-          setNotification({
-            type: "error",
-            message: `Failed to delete ${person.name}!`,
-          });
+          setNotificationWithTimeout(
+            "error",
+            `Failed to delete ${person.name}!`
+          );
         });
     }
   };
